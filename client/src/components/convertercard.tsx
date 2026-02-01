@@ -25,13 +25,10 @@ export function ConverterCard({
           <div className="mb-3">
             <label className="form-label text-muted small fw-bold text-uppercase">Amount</label>
             <div className="input-group input-group-lg">
-              {/* Fix 1: Added 'border-secondary' for dark mode so the border color blends in */}
               <span className={`input-group-text bg-transparent border-end-0 fw-bold ${darkMode ? 'text-white border-secondary' : 'text-dark'}`}>$</span>
 
               <input
                 type="number"
-                /* Fix 2: Removed 'border-0' to get the complete border back.
-                   Added 'border-secondary' for dark mode. */
                 className={`form-control form-control-lg fw-bold ${darkMode ? 'bg-dark text-white border-secondary' : 'bg-light text-dark'}`}
                 placeholder="0"
                 value={amount === 0 ? '' : amount}
@@ -66,7 +63,17 @@ export function ConverterCard({
               <span>Date (Optional)</span>
               {date && <span className="text-primary" style={{cursor: 'pointer'}} onClick={() => setDate("")}>Clear</span>}
             </label>
-            <input type="date" className="form-control form-control-lg" value={date} onChange={(e) => setDate(e.target.value)} max={new Date().toISOString().split("T")[0]} />
+            
+            {/* FIX HERE: Added style={{ colorScheme: ... }} and dynamic classes */}
+            <input 
+              type="date" 
+              className={`form-control form-control-lg ${darkMode ? 'bg-dark text-white border-secondary' : 'bg-white text-dark'}`}
+              value={date} 
+              onChange={(e) => setDate(e.target.value)} 
+              max={new Date().toISOString().split("T")[0]} 
+              style={{ colorScheme: darkMode ? 'dark' : 'light' }}
+            />
+          
           </div>
           <button onClick={() => void onConvert()} disabled={loading} className="btn btn-primary w-100 btn-lg rounded-3 fw-bold py-2 mb-3 shadow-sm">
             {loading ? <div className="spinner-border spinner-border-sm text-light" role="status" /> : "Convert Currency"}
